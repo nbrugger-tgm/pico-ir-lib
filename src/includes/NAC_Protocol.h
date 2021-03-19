@@ -22,7 +22,7 @@ typedef void (*NAC_Callback)(uint8_t,uint8_t);
 typedef void (*command_handler_t)(uint8_t);
 typedef std::map<uint8_t,command_handler_t> command_map_t;
 
-class NAC_Protocoll {
+class NAC_Protocol {
 private:
     const uint pulse_dur = 562;
     bool par = false;
@@ -51,14 +51,24 @@ public:
     /**
      * @param callback This method is called when the NAC receives a transmission
      */
-    NAC_Protocoll(IR_Sensor* sensor,NAC_Callback callback);
-    NAC_Protocoll(IR_Sensor* sensor,command_map_t* command_table);
+    NAC_Protocol(IR_Sensor* sensor, NAC_Callback callback);
     /**
-     * resets the protocoll to start listening for the next transmission
+     * Creates a NAC protocol that resolves commands agains a table and calls regarding callback functions
+     * @param sensor the sensor to read the values from
+     * @param command_table a table including
+     */
+    NAC_Protocol(IR_Sensor* sensor, command_map_t* command_table);
+    /**
+     * resets the protocol to start listening for the next transmission
      */
     void reset();
 
-    void register_callback();
+    /**
+     * Registers the interrupt to the pico
+     *
+     * ATTENTION: PICO ONLY ALLOWS A SINGLE INTERRUPT AT A TIME
+     */
+    void register_interrupt();
 };
 
 
