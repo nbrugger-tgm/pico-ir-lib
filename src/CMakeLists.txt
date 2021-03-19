@@ -1,10 +1,10 @@
 add_library(${lib_name}
     IR_Sensor.cpp
-        NAC_Protocol.cpp
+        NEC_Protocol.cpp
     bit_bang.cpp
     includes/bit_bang.h
     includes/IR_Sensor.h
-        includes/NAC_Protocol.h
+        includes/NEC_Protocol.h
 )
 target_link_libraries(${lib_name}
     hardware_adc

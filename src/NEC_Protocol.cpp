@@ -5,7 +5,7 @@
 #include <hardware/timer.h>
 #include <hardware/gpio.h>
 #include <map>
-#include "includes/NAC_Protocol.h"
+#include "includes/NEC_Protocol.h"
 #include "includes/bit_bang.h"
 
 void c_level_ir_interrupt(uint gpio,uint32_t events);
@@ -14,7 +14,7 @@ void command_resolver_callback(uint8_t addr, uint8_t cmd);
 
 std::map<uint8_t, command_handler_t>* c_level_command_table;
 
-void NAC_Protocol::internal_interrupt(uint gpio, uint32_t events) {
+void NEC_Protocol::internal_interrupt(uint gpio, uint32_t events) {
     if(!par) {
 //test low parrity
         for (int i = 0; i < par_low_probes; ++i) {
@@ -81,23 +81,23 @@ void NAC_Protocol::internal_interrupt(uint gpio, uint32_t events) {
 
 }
 
-void NAC_Protocol::reset(){
+void NEC_Protocol::reset(){
     par = false;
     read_high = false;
     data_pos = 0;
 }
-static std::map<int, NAC_Protocol*> ir_pin_map;
-NAC_Protocol::NAC_Protocol(IR_Sensor* sensor, NAC_Callback callback) {
+static std::map<int, NEC_Protocol*> ir_pin_map;
+NEC_Protocol::NEC_Protocol(IR_Sensor* sensor, NAC_Callback callback) {
     this->callback = callback;
     pin = *(sensor->get_pin);
     ir_pin_map[pin] = this;
 }
 
-void NAC_Protocol::register_interrupt() {
+void NEC_Protocol::register_interrupt() {
     gpio_set_irq_enabled_with_callback(pin, GPIO_IRQ_EDGE_FALL, true, &c_level_ir_interrupt);
 }
 
-NAC_Protocol::NAC_Protocol(IR_Sensor *sensor, command_map_t* command_table) {
+NEC_Protocol::NEC_Protocol(IR_Sensor *sensor, command_map_t* command_table) {
     this->callback = &command_resolver_callback;
     pin = *(sensor->get_pin);
     ir_pin_map[pin] = this;

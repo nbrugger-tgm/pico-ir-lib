@@ -3,7 +3,7 @@
 This library enables you to read Infrared signals with the RP2040 MCU
 
 ### Features
-* NIC Protocol
+* NEC Protocol   ([more information](https://www.sbprojects.net/knowledge/ir/nec.php))
 
 ## Usage
 
