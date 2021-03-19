@@ -1,3 +1,18 @@
+## v2.0.0 (2021-03-19)
+
+### Feat
+
+- NEC continious holding support
+- initial release
+
+### Refactor
+
+- use NEC instead of NAC
+
+### Fix
+
+- adapt example to new structure
+
 ## v1.0.0 (2021-03-19)
 
 ### Feat
