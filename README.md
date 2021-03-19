@@ -13,7 +13,7 @@ To use the compiled library you have 2 options
 
 This uses a fixed version
 
-1. Download the latest precompiled `libinfrared.a` from github releases
+1. Download the latest precompiled `libinfrared.a` from [github releases](https://github.com/nbrugger-tgm/pico-ir-lib/releases/)
 2. Place it inside a `libs` folder in your project
 3. use `find_library(infrared infrared libs)`
    1. `libs` must be the name of the folder containing the `a` file
