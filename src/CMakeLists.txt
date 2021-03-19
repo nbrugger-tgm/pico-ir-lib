@@ -1,17 +1,12 @@
 add_library(${lib_name}
-        mylib/adder.cpp
-        mylib/adder.h
+    IR_Sensor.cpp
+    NAC_Protocoll.cpp
+    bit_bang.cpp
+    includes/bit_bang.h
+    includes/IR_Sensor.h
+    includes/NAC_Protocoll.h
 )
 target_link_libraries(${lib_name}
-        #hardware_i2c
-        #hardware_adc
-        #hardware_irq
-        #hardware_rtc
-        #hardware_spi
-        #hardware_timer
-        #hardware_uart
-        #pico_multicore
-        #pico_time
-        #tinyusb_device
-        #tinyusb_host
+    hardware_adc
+    hardware_irq
 )
