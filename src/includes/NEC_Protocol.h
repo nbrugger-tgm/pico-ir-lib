@@ -22,9 +22,21 @@ typedef void (*NAC_Callback)(uint8_t,uint8_t);
 typedef void (*command_handler_t)(uint8_t);
 typedef std::map<uint8_t,command_handler_t> command_map_t;
 
-class NAC_Protocol {
+class NEC_Protocol {
 private:
     const uint pulse_dur = 562;
+
+    uint last_cmd_start_us = 0;
+    const uint hold_pause_ms = 110;
+    const uint hold_pause_us_max = (hold_pause_ms + 5)*1000;
+    const uint hold_pause_us_min = (hold_pause_ms - 3)*1000;
+    const uint hold_high_probes = (4500/2)/pulse_dur;
+    const uint hold_low_probes = 9000/pulse_dur;
+    bool wait_for_hold_pulse_end = false;
+
+    uint8_t last_addr = 0;
+    uint8_t last_cmd = 0;
+
     bool par = false;
     bool ir_sign = false;
     uint code = 0;
@@ -42,6 +54,10 @@ private:
     NAC_Callback callback;
     command_map_t* command_table;
     unsigned int pin;
+    uint low_probes;
+    uint h_probes;
+    uint32_t now;
+    uint32_t time;
 public:
     /**
      * The interrupt for the IR_LED pin
@@ -51,13 +67,13 @@ public:
     /**
      * @param callback This method is called when the NAC receives a transmission
      */
-    NAC_Protocol(IR_Sensor* sensor, NAC_Callback callback);
+    NEC_Protocol(IR_Sensor* sensor, NAC_Callback callback);
     /**
      * Creates a NAC protocol that resolves commands agains a table and calls regarding callback functions
      * @param sensor the sensor to read the values from
      * @param command_table a table including
      */
-    NAC_Protocol(IR_Sensor* sensor, command_map_t* command_table);
+    NEC_Protocol(IR_Sensor* sensor, command_map_t* command_table);
     /**
      * resets the protocol to start listening for the next transmission
      */
@@ -69,6 +85,9 @@ public:
      * ATTENTION: PICO ONLY ALLOWS A SINGLE INTERRUPT AT A TIME
      */
     void register_interrupt();
+
+
+
 };
 
 
