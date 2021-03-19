@@ -2,7 +2,7 @@
 #include <cstdio>
 
 //This are the infrared includes
-#include <includes/NAC_Protocoll.h>
+#include <includes/NAC_Protocol.h>
 #include <includes/bit_bang.h>
 
 //you need a single GPIO pin
@@ -41,15 +41,15 @@ int main() {
     IR_Sensor s = IR_Sensor(sensor_pin, 0,true);
 
     //now a Protocol (In this case NAC) is created for the sensor
-    NAC_Protocoll prot = NAC_Protocoll(&s, &cmds);
+    NAC_Protocol prot = NAC_Protocol(&s, &cmds);
 
 
     //Use this if you want to handle keycodes yourself
-    //NAC_Protocoll prot = NAC_Protocoll(&s, &on_receive);
+    //NAC_Protocol prot = NAC_Protocol(&s, &on_receive);
 
 
     //this is important. ATTENTION Pico supports only a single interrupt at a time so you can only use one Sensor (sadly)
-    prot.register_callback();
+    prot.register_interrupt();
 
     //also important if you do not do this the pico will exit
     while (1);
